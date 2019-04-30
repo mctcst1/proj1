@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.db import models
-from django.http import HttpResponse
+from . import models
 
 
 def test(request):
-    return HttpResponse('Hi!')
+    name = models.Test.objects.get(id=1)
+    return render(request, 'index.html', {'name': name, 'degree': 3.5})
