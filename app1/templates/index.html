@@ -9,6 +9,9 @@
   <p>{% if name != 'Mohsen' %}</p>
   <p> Hello {{name}}!</p>
   <p>Your degree is: {{degree}}</p>
+  <p>{% for i in data %}</p>
+  <p>{{forloop.counter}}. {{i}}</p>
+  {% endfor %}
   {% else %}
   <p>Hi {{name}}!</p>
   {% endif %}
