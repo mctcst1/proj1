@@ -9,3 +9,20 @@ class Teste(admin.ModelAdmin):
     list_filter = ('name', 'degree')
     date_hierarchy = 'date'
     ordering = ('-degree', )
+    fields = ('name', 'degree', 'date')
+
+
+@admin.register(models.Id)
+class Ids(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.Book)
+class Books(admin.ModelAdmin):
+    filter_horizontal = ('author', )
+    raw_id_fields = ('author', )
+
+
+@admin.register(models.Gene)
+class Genes(admin.ModelAdmin):
+    pass
