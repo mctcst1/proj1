@@ -10,8 +10,10 @@ def test(request):
 
 
 def meta(request):
-    l = request.META
-    return render(request, 'meta.html', {'meta': l})
+    # l = request.META
+    # return render(request, 'meta.html', {'meta': l})
+    dic = {'one': 1, 'two': 2}
+    return render(request, 'meta.html', {'meta': dic})
 
 
 def display_meta(request):
@@ -20,3 +22,15 @@ def display_meta(request):
     for k, v in values:
         html.append('<tr><td>%s</td><td>%s</td></tr>' % (k, v))
     return HttpResponse('<table>%s </table>' % '\n'.join(html))
+
+
+def search_form(request):
+    return render(request, 'search_form.html')
+
+
+def search(request):
+    if 'q' in request.GET:
+        message = 'You search for %s' % (request.GET['q'])
+    else:
+        message = 'You submitted an empty form.'
+    return HttpResponse(message)
