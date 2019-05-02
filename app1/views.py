@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.mail import send_mail
 from . import models
+from . import forms
 
 
 def test(request):
@@ -29,8 +31,28 @@ def search_form(request):
 
 
 def search(request):
-    if 'q' in request.GET:
-        message = 'You search for %s' % (request.GET['q'])
+    error = False
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        degrees = models.Test.objects.filter(name__icontains=q)
+        return render(request, 'result.html', {'degrees': degrees, 'q': q})
     else:
-        message = 'You submitted an empty form.'
-    return HttpResponse(message)
+        error = True
+        return render(request, 'search_form.html', {'error': error})
+
+
+def contact_form(request):
+    if request.method == 'POST':
+        form = forms.Forms(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            send_mail(
+                cd['subject'],
+                cd['message'],
+                cd.get('email', 'noreply@example.com'),
+                ['siteowner@example.com'],
+        )
+            return HttpResponseRedirect('/contact/thanks/')
+    else:
+        form = forms.Forms()
+    return render(request, 'form.html', {'form': form})
