@@ -54,5 +54,5 @@ def contact_form(request):
         )
             return HttpResponseRedirect('/contact/thanks/')
     else:
-        form = forms.Forms()
+        form = forms.Forms(initial={'subject': 'Hi'})
     return render(request, 'form.html', {'form': form})
